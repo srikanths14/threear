@@ -28,6 +28,7 @@ let hitTestSourceRequested = false;
 
 let touchRaycaster = null;
 let arrowhelper = null;
+let touch = null;
 
 initScene();
 frameLoop();
@@ -483,7 +484,7 @@ function rotateAsset(){
 
 function setupTouchController(){
 
-    var touch = renderer.xr.getController(0);
+    touch = renderer.xr.getController(0);
     touch.addEventListener('selectstart',onTouchStarted);
     touch.addEventListener('selectend',onTouchEnded);
 
