@@ -26,8 +26,68 @@ let moveVisualPointer;
 let hitTestSource = null;
 let hitTestSourceRequested = false;
 
+let touchRaycaster = null;
+let arrowhelper = null;
+
 initScene();
 frameLoop();
+
+function setupRenderEnvironment(){
+
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    camera = setupCamera();
+    scene = setupScene();
+    light
+
+}
+
+function setupCamera(){
+
+    const cameraAspectRatio = window.innerWidth/window.innerHeight
+    const cameraNearPlaneValue = 0.1;
+    const cameraFarPlaneValue = 100;
+
+    const perspectiveCamera = new THREE.PerspectiveCamera(70,cameraAspectRatio,cameraNearPlaneValue,cameraFarPlaneValue);
+    perspectiveCamera.position.set(0,0.2,3);
+
+    return perspectiveCamera;
+}
+
+function setupScene(){
+
+    const rootScene = new THREE.Scene();
+    return rootScene;
+    
+}
+
+function setupSceneLights(){
+
+    const sceneAmbientLight = new THREE.AmbientLight(0xffffff,0.5);
+    const sceneDirectionalLight = THREE.DirectionalLight( 0xffffff, 1);
+    directionalLight.position.set(0,2,5);
+
+    var sceneLights = [];
+    sceneLights.push(sceneAmbientLight);
+    sceneLights.push(sceneDirectionalLight);
+
+    return sceneLights;
+
+}
+
+function setupSceneRenderer(){
+
+    const sceneRenderer = new THREE.WebGLRenderer({
+        antialias:true,alpha:true
+    });
+    sceneRenderer.setPixelRatio(window.devicePixelRatio);
+    sceneRenderer.setSize(window.innerWidth,window.innerHeight);
+    sceneRenderer.outputEncoding = THREE.sRGBEncoding;
+    sceneRenderer.xr.enabled =true;
+
+    return sceneRenderer;
+}
 
 function initScene(){
 
@@ -40,6 +100,9 @@ function initScene(){
     startTouchPose1 = new THREE.Vector3();
     touchPose1 = new THREE.Vector3();
     touchPose2 = new THREE.Vector3();
+    touchRaycaster = new THREE.Raycaster();
+    arrowhelper = new THREE.ArrowHelper();
+    scene.add(arrowhelper);
 
     scene = new THREE.Scene();
     const light = new THREE.AmbientLight(0xffffff,0.5);
@@ -68,6 +131,7 @@ function initScene(){
     
     createImageElement();
     showAssetUI();
+    setupTouchController();
     window.addEventListener( 'resize', onWindowResize );
 
 }
@@ -415,6 +479,36 @@ function rotateAsset(){
         animationButtonElement.textContent = 'Play Animation';
         isRotationAnimationActive = false;
     }
+}
+
+function setupTouchController(){
+
+    var touch = renderer.xr.getController(0);
+    touch.addEventListener('selectstart',onTouchStarted);
+    touch.addEventListener('selectend',onTouchEnded);
+
+}
+
+function onTouchStarted(){
+
+    var touchWorldPosition = touch.getWorldPosition();
+    var cameraWorldPosition = camera.getWorldPosition();
+    var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
+
+    touchRaycaster.set(touchWorldPosition,touchDirection);
+
+    arrowhelper.position.set(touchRaycaster.ray.origin);
+    arrowhelper.setDirection(touchRaycaster.ray.direction);
+    arrowhelper.setLength(100);
+    arrowhelper.setColor(0xffff00);
+
+    console.log(touchWorldPosition);
+    console.log(touchDirection);
+
+}
+
+function onTouchEnded(){
+
 }
 
 function frameLoop(){
