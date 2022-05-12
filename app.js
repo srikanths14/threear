@@ -28,7 +28,7 @@ let hitTestSourceRequested = false;
 
 let touchRaycaster = null;
 let arrowhelper = null;
-let touch = null;
+let touchController = null;
 
 initScene();
 frameLoop();
@@ -484,17 +484,18 @@ function rotateAsset(){
 
 function setupTouchController(){
 
-    touch = renderer.xr.getController(0);
-    touch.addEventListener('selectstart',onTouchStarted);
-    touch.addEventListener('selectend',onTouchEnded);
+    touchController = renderer.xr.getController(0);
+    touchController.addEventListener('selectstart',onTouchStarted);
+    touchController.addEventListener('selectend',onTouchEnded);
 
 }
 
 function onTouchStarted(){
 
-    if(touch!=null){
-    var touchWorldPosition = new THREE.Vector3().setFromMatrixPosition(touch.matrixWorld);
-    var cameraWorldPosition = camera.getWorldPosition();
+    if(touchController!=null){
+        
+    var touchWorldPosition = new THREE.Vector3().setFromMatrixPosition(touchController.matrixWorld);
+    var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
     var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
 
     touchRaycaster.set(touchWorldPosition,touchDirection);
