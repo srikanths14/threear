@@ -502,10 +502,17 @@ function onTouchStarted(){
 
     touchRaycaster.set(touchWorldPosition,touchDirection);
 
-    arrowhelper.position.set(touchRaycaster.ray.origin);
-    arrowhelper.setDirection(touchRaycaster.ray.direction);
+    arrowhelper.position.set(touchWorldPosition);
+    arrowhelper.setDirection(touchDirection);
     arrowhelper.setLength(100);
-    arrowhelper.setColor(0xffff00);
+    arrowhelper.setColor(Math.random() * 0xffff00);
+
+    var collidedObjects = touchRaycaster.intersectObjects(scene.children);
+
+    if(collidedObjects.length>0){
+        
+        console.log(collidedObjects.length);
+    }
 
     console.log(touchWorldPosition);
     console.log(touchDirection);
