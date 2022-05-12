@@ -492,7 +492,8 @@ function setupTouchController(){
 
 function onTouchStarted(){
 
-    var touchWorldPosition = touch.getWorldPosition();
+    if(touch!=null){
+    var touchWorldPosition = new THREE.Vector3().setFromMatrixPosition(touch.matrixWorld);
     var cameraWorldPosition = camera.getWorldPosition();
     var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
 
@@ -505,6 +506,7 @@ function onTouchStarted(){
 
     console.log(touchWorldPosition);
     console.log(touchDirection);
+    }
 
 }
 
