@@ -494,7 +494,7 @@ function onTouchStarted(){
 
     if(touchController!=null){
 
-    var touchWorldPosition = touchController.position;
+    touchWorldPosition = touchController.position;
     touchController.localToWorld(touchWorldPosition);
 
     var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
