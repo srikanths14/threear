@@ -102,11 +102,11 @@ function initScene(){
     touchPose2 = new THREE.Vector3();
     touchRaycaster = new THREE.Raycaster();
     arrowhelper = new THREE.ArrowHelper();
-    scene.add(arrowhelper);
 
     scene = new THREE.Scene();
     const light = new THREE.AmbientLight(0xffffff,0.5);
     scene.add(light);
+    scene.add(arrowhelper);
     
     const directionalLight = new THREE.DirectionalLight( 0xffffff, 1);
     directionalLight.position.set(0,2,5);
