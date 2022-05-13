@@ -515,7 +515,7 @@ function onTouchStarted(){
 
         for(let m=0;m<collidedObjects.length;m++){
             
-            console.log(collidedObjects[i].object.name);
+            console.log(collidedObjects[m].object.name);
         }
         
         console.log(collidedObjects.length);
