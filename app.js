@@ -305,29 +305,6 @@ function render(timestamp,frame){
 
         var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
-
-        // if(transientInputHitSource==null && activeSession!=null){
-
-        //     referenceSpace = activeSession.requestReferenceSpace('viewer');
-
-        //     activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane", "point"]
-        //     }).then((newHitTestSource)=>{
-        //         transientInputHitSource = newHitTestSource;
-        //     });
-        // }
-        
-        //  if(transientInputHitSource!=null){
-        
-        //     const hitRlt = frame.getHitTestResultsForTransientInput(transientInputHitSource);
-        //     if(hitRlt.length>0){
-
-        //         const hit = hitRlt[ 0 ];
-
-        //         visualPointer.visible = true;
-        //         visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
-        //         console.log(visualPointer.position);
-        //     }
-        //  }
         
         if(hitTestSourceRequested===false){
 
@@ -353,28 +330,49 @@ function render(timestamp,frame){
 
         }
 
-        if ( hitTestSource ) {
+        if(transientInputHitSource==null && activeSession!=null){
 
-            const hitTestResults = frame.getHitTestResults( hitTestSource );
-
-            if ( hitTestResults.length ) {
-
-                const hit = hitTestResults[ 0 ];
-
-                var poseRequest = hit.getPose(referenceSpace);
-                console.log(poseRequest);
-                console.log(hit);
-                visualPointer.visible = true;
-                visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
-
-
-            } else {
-
-                visualPointer.visible = false;
-
-            }
-
+            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane", "point"]
+            }).then((newHitTestSource)=>{
+                transientInputHitSource = newHitTestSource;
+            });
         }
+        
+         if(transientInputHitSource!=null){
+        
+            const hitRlt = frame.getHitTestResultsForTransientInput(transientInputHitSource);
+
+            if(hitRlt.length>0){
+                
+                const hitM = hitRlt[ 0 ];
+
+                var poseM = hitM.getPose(referenceSpace);
+                console.log(poseM);
+            }
+         }
+
+        // if ( hitTestSource ) {
+
+        //     const hitTestResults = frame.getHitTestResults( hitTestSource );
+
+        //     if ( hitTestResults.length ) {
+
+        //         const hit = hitTestResults[ 0 ];
+
+        //         var poseRequest = hit.getPose(referenceSpace);
+        //         console.log(poseRequest);
+        //         console.log(hit);
+        //         visualPointer.visible = true;
+        //         visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+
+
+        //     } else {
+
+        //         visualPointer.visible = false;
+
+        //     }
+
+        // }
 
     }
 
