@@ -489,7 +489,7 @@ function onTouchStarted(){
             sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
         }
     }
-    
+
     castRay();
     // castRay();
 }
@@ -523,7 +523,7 @@ function castRay(){
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
             locPoseY = selectedObject.position.y;
-            // touchController.attach(selectedObject);
+            touchController.attach(selectedObject);
             console.log(selectedObject.name);          
             console.log(collidedObjects.length);
     
@@ -538,7 +538,7 @@ function updateSceneAssetTransform(){
 
     if(selectedObject!=null && touchStarted==true){
 
-        selectedObject.position.setFromMatrixPosition(touchController.matrixWorld);
+        selectedObject.rotation.set(0,0,0);
     }
 
 }
