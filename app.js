@@ -491,28 +491,11 @@ function setupTouchController(){
 }
 
 function onTouchStarted(){
-
-    if(enableMovement==true){
-
-    touchStarted = true;
-
-    }
+    castRay();
     // castRay();
-
-
 }
 
 function onTouchEnded(){
-
-    if(enableMovement==true){
-
-        touchStarted == false;       
-        // group.attach(sceneAsset);
-    }
-
-    // if(selectedObject!=null){
-    //     group.attach(selectedObject);
-    // }
 
 }
 
@@ -526,12 +509,18 @@ function castRay(){
         var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
         var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
         touchRaycaster.set(touchWorldPosition,touchDirection);
-        var collidedObjects = touchRaycaster.intersectObjects(scene.children,false);
+
+        arrowhelper.position.set(touchRaycaster.ray.origin);
+        arrowhelper.setDirection(touchRaycaster.ray.direction);
+        arrowhelper.setLength(touchRaycaster.ray.direction.length());
+        arrowhelper.setColor(0xffff00);
+
+        var collidedObjects = touchRaycaster.intersectObjects(scene.children);
     
         if(collidedObjects.length>0){
 
             const intersections = collidedObjects[0];
-            selectedObject = intersections.object;
+            selectedObject = intersections.object.parent;
             touchController.attach(selectedObject);
             console.log(selectedObject.name);          
             console.log(collidedObjects.length);
@@ -544,15 +533,6 @@ function castRay(){
 }
 
 function attachAssetToContoller(){
-
-    // if(touchStarted == true){
-
-    //     if(touchController!=null){
-
-    //         touchController.attach(sceneAsset);
-    //     }
-
-    // }
 
 }
 
