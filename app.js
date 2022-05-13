@@ -486,6 +486,7 @@ function onTouchStarted(){
 
         if (visualPointer.visible) {      
             sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
+            console.log(visualPointer.position);
         }
     }
 
@@ -522,8 +523,8 @@ function castRay(){
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
             console.log(selectedObject.name);          
-            console.log(selectedObject.position);
-            console.log(sceneAsset.position);
+            console.log(selectedObject.getWorldPosition());
+            console.log(sceneAsset.getWorldPosition());
     
         }
 
