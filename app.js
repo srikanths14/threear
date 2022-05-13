@@ -509,7 +509,7 @@ function onTouchStarted(){
     arrowhelper.setLength(100);
     arrowhelper.setColor(Math.random() * 0xffff00);
 
-    var collidedObjects = touchRaycaster.intersectObjects(scene.children);
+    var collidedObjects = touchRaycaster.intersectObjects(scene.children,false);
 
     if(collidedObjects.length>0){
 
