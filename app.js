@@ -499,13 +499,13 @@ function onTouchEnded(){
 
 }
 
-function castRay(){
+function castRay(event){
 
-    if(touchController!=null){
+    const sourceControl = event.target;
 
-        var touchWorldPosition = touchController.position;
-        touchController.localToWorld(touchWorldPosition);
-    
+    if(sourceControl!=null){
+
+        var touchWorldPosition = new THREE.Vector3().setFromMatrixPosition(sourceControl.matrixWorld);
         var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
         var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
         touchRaycaster.set(touchWorldPosition,touchDirection);
@@ -521,7 +521,7 @@ function castRay(){
 
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
-            touchController.attach(selectedObject);
+            sourceControl.attach(selectedObject);
             console.log(selectedObject.name);          
             console.log(collidedObjects.length);
     
