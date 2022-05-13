@@ -33,6 +33,8 @@ let touchController = null;
 let selectedObject =null;
 let group = null;
 
+let touchStarted = false;
+
 initScene();
 frameLoop();
 
@@ -306,6 +308,8 @@ function render(timestamp,frame){
 
     rotateAsset();
 
+    attachAssetToContoller();
+
     if(frame){
 
         const referenceSpace = renderer.xr.getReferenceSpace();
@@ -499,16 +503,27 @@ function setupTouchController(){
 
 function onTouchStarted(){
 
-    castRay();
+    if(enableMovement==true){
+
+    touchStarted = true;
+
+    }
+    // castRay();
 
 
 }
 
 function onTouchEnded(){
 
-    if(selectedObject!=null){
-        group.attach(selectedObject);
+    if(enableMovement==true){
+
+        touchStarted == false;       
+        group.attach(sceneAsset);
     }
+
+    // if(selectedObject!=null){
+    //     group.attach(selectedObject);
+    // }
 
 }
 
@@ -537,6 +552,19 @@ function castRay(){
         console.log(touchWorldPosition);
         console.log(touchDirection);
     }
+}
+
+function attachAssetToContoller(){
+
+    if(touchStarted == true){
+
+        if(touchController!=null){
+
+            touchController.attach(sceneAsset);
+        }
+
+    }
+
 }
 
 function frameLoop(){
