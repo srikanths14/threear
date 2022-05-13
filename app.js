@@ -372,17 +372,6 @@ function showAssetUI(){
 
     document.body.appendChild(uiContainer);
 
-    const moveButton = document.createElement('button');
-    moveButton.id = 'button-move';
-    moveButton.style.display = '';
-    moveButton.style.position = 'absolute';
-    moveButton.textContent = 'Move';
-    moveButton.style.right = '30px';
-    moveButton.style.top ='30px';
-    moveButton.addEventListener('click',onMoveAsset);
-
-    uiContainer.appendChild(moveButton);
-
     const rotateButton = document.createElement('button');
     rotateButton.id = 'button-moveRight';
     rotateButton.style.display ='';
@@ -518,7 +507,7 @@ function onTouchEnded(){
     if(enableMovement==true){
 
         touchStarted == false;       
-        group.attach(sceneAsset);
+        // group.attach(sceneAsset);
     }
 
     // if(selectedObject!=null){
@@ -556,14 +545,14 @@ function castRay(){
 
 function attachAssetToContoller(){
 
-    if(touchStarted == true){
+    // if(touchStarted == true){
 
-        if(touchController!=null){
+    //     if(touchController!=null){
 
-            touchController.attach(sceneAsset);
-        }
+    //         touchController.attach(sceneAsset);
+    //     }
 
-    }
+    // }
 
 }
 
