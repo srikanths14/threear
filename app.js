@@ -153,14 +153,7 @@ function process_touchstart(ev){
 
         startTouchPose1.set(ev.touches[0].clientX,ev.touches[0].clientY,0).unproject(camera);
 
-        if(visualPointer!=null){
-
-        if (visualPointer.visible) {      
-            sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
-        }
      }
-
-    }
     
     if(ev.touches.length==2){
         
@@ -178,8 +171,6 @@ function process_touchstart(ev){
     }
 
     renderer.domElement.addEventListener('touchmove',process_touchmove,false);
-
-
 
 }
 
@@ -491,6 +482,14 @@ function setupTouchController(){
 }
 
 function onTouchStarted(){
+
+    if(visualPointer!=null){
+
+        if (visualPointer.visible) {      
+            sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
+        }
+    }
+    
     castRay();
     // castRay();
 }
@@ -540,7 +539,6 @@ function updateSceneAssetTransform(){
     if(selectedObject!=null && touchStarted==true){
 
         selectedObject.position.setFromMatrixPosition(touchController.matrixWorld);
-        selectedObject.position.y = locPoseY;
     }
 
 }
