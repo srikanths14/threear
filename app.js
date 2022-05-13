@@ -310,8 +310,8 @@ function render(timestamp,frame){
 
             referenceSpace = activeSession.requestReferenceSpace('viewer');
 
-            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane"],
-            offsetRay : XRRay()}).then((newHitTestSource)=>{
+            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane"]
+            }).then((newHitTestSource)=>{
                 transientInputHitSource = newHitTestSource;
             });
         }
