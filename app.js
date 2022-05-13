@@ -263,7 +263,6 @@ function loadGltf(){
     gltfLoader.load('EP3246_NT.glb',function(gltf){
 
       sceneAsset = gltf.scene;
-      sceneAsset.matrixAutoUpdate = false;
       scene.add(gltf.scene);
     });
 }
