@@ -300,6 +300,7 @@ function render(timestamp,frame){
     }
 
     rotateAsset();
+    castRay();
 
     if(frame){
 
@@ -493,41 +494,46 @@ function setupTouchController(){
 }
 
 function onTouchStarted(){
+    
+    castRay();
+
+
+}
+
+function onTouchEnded(){
+
+}
+
+function castRay(){
 
     if(touchController!=null){
 
-    var touchWorldPosition = touchController.position;
-    touchController.localToWorld(touchWorldPosition);
-
-    var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
-    var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
-
-    touchRaycaster.set(touchWorldPosition,touchDirection);
-
-    arrowhelper.position.set(touchWorldPosition);
-    arrowhelper.setDirection(touchDirection);
-    arrowhelper.setLength(100);
-    arrowhelper.setColor(Math.random() * 0xffff00);
-
-    var collidedObjects = touchRaycaster.intersectObjects(scene.children);
-
-    if(collidedObjects.length>0){
-
-        for(let m=0;m<collidedObjects.length;m++){
-            
-            console.log(collidedObjects[i].object.name);
-        }
-        
-        console.log(collidedObjects.length);
-
-    }
-
-    console.log(touchWorldPosition);
-    console.log(touchDirection);
-    console.log(touchController.position);
+        var touchWorldPosition = touchController.position;
+        touchController.localToWorld(touchWorldPosition);
     
-    }
+        var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
+        var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
+    
+        touchRaycaster.set(touchWorldPosition,touchDirection);
 
+        var collidedObjects = touchRaycaster.intersectObjects(scene.children,false);
+    
+        if(collidedObjects.length>0){
+    
+            for(let m=0;m<collidedObjects.length;m++){
+                
+                console.log(collidedObjects[m].object.name);
+            }
+            
+            console.log(collidedObjects.length);
+    
+        }
+    
+        console.log(touchWorldPosition);
+        console.log(touchDirection);
+        console.log(touchController.position);
+        
+        }
 }
 
 function frameLoop(){
