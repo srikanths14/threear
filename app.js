@@ -494,7 +494,7 @@ function setupTouchController(){
 }
 
 function onTouchStarted(){
-    
+
     castRay();
 
 
@@ -506,7 +506,7 @@ function onTouchEnded(){
 
 function castRay(){
 
-    if(touchController!=null){
+    if(touchController!=null && enableMovement ==true){
 
         var touchWorldPosition = touchController.position;
         touchController.localToWorld(touchWorldPosition);
