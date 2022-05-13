@@ -307,6 +307,7 @@ function render(timestamp,frame){
         activeSession = renderer.xr.getSession();
 
         if(transientInputHitSource==null && activeSession!=null){
+
             activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
                 transientInputHitSource = newHitTestSource;
             });
@@ -318,10 +319,9 @@ function render(timestamp,frame){
             if(hitResults.length>0){
 
                 const hitObj = hitResults[0];
-                // visualPointer.visible =true;
-                // visualPointer.matrix.fromArray()
-        
-                console.log(hitObj);
+
+                const hitPoseObj = hitObj.getPose(referenceSpace);
+                console.log(hitPoseObj);
             }
          }
         
