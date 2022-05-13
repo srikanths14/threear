@@ -34,6 +34,7 @@ let selectedObject =null;
 let group = null;
 
 let touchStarted = false;
+let locPoseY = null;
 
 initScene();
 frameLoop();
@@ -307,8 +308,7 @@ function render(timestamp,frame){
     }
 
     rotateAsset();
-
-    attachAssetToContoller();
+    updateSceneAssetTransform();
 
     if(frame){
 
@@ -497,11 +497,15 @@ function onTouchStarted(){
 
 function onTouchEnded(){
 
+    touchStarted = false;
+
 }
 
 function castRay(){
 
     if(touchController!=null){
+
+        touchStarted = true;
 
         var touchWorldPosition = new THREE.Vector3().setFromMatrixPosition(touchController.matrixWorld);
         var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
@@ -519,7 +523,8 @@ function castRay(){
 
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
-            touchController.attach(selectedObject);
+            locPoseY = selectedObject.position.y;
+            // touchController.attach(selectedObject);
             console.log(selectedObject.name);          
             console.log(collidedObjects.length);
     
@@ -530,9 +535,16 @@ function castRay(){
     }
 }
 
-function attachAssetToContoller(){
+function updateSceneAssetTransform(){
+
+    if(selectedObject!=null && touchStarted==true){
+
+        selectedObject.position.setFromMatrixPosition(touchController.matrixWorld);
+        selectedObject.position.y = locPoseY;
+    }
 
 }
+
 
 function frameLoop(){
     renderer.setAnimationLoop(render);
