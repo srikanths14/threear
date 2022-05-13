@@ -30,6 +30,9 @@ let touchRaycaster = null;
 let arrowhelper = null;
 let touchController = null;
 
+let selectedObject =null;
+let group = null;
+
 initScene();
 frameLoop();
 
@@ -103,11 +106,13 @@ function initScene(){
     touchPose2 = new THREE.Vector3();
     touchRaycaster = new THREE.Raycaster();
     arrowhelper = new THREE.ArrowHelper();
+    group = new THREE.Group();
 
     scene = new THREE.Scene();
     const light = new THREE.AmbientLight(0xffffff,0.5);
     scene.add(light);
     scene.add(arrowhelper);
+    scene.add(group);
     
     const directionalLight = new THREE.DirectionalLight( 0xffffff, 1);
     directionalLight.position.set(0,2,5);
@@ -300,7 +305,6 @@ function render(timestamp,frame){
     }
 
     rotateAsset();
-    castRay();
 
     if(frame){
 
@@ -502,38 +506,37 @@ function onTouchStarted(){
 
 function onTouchEnded(){
 
+    if(selectedObject!=null){
+        group.attach(selectedObject);
+    }
+
 }
 
 function castRay(){
 
-    if(touchController!=null && enableMovement ==true){
+    if(touchController!=null){
 
         var touchWorldPosition = touchController.position;
         touchController.localToWorld(touchWorldPosition);
     
         var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
         var touchDirection = touchWorldPosition.clone().sub(cameraWorldPosition).normalize();
-    
         touchRaycaster.set(touchWorldPosition,touchDirection);
-
         var collidedObjects = touchRaycaster.intersectObjects(scene.children,false);
     
         if(collidedObjects.length>0){
-    
-            for(let m=0;m<collidedObjects.length;m++){
-                
-                console.log(collidedObjects[m].object.name);
-            }
-            
+
+            const intersections = collidedObjects[0];
+            selectedObject = intersections.object;
+            touchController.attach(selectedObject);
+            console.log(selectedObject.name);          
             console.log(collidedObjects.length);
     
         }
     
         console.log(touchWorldPosition);
         console.log(touchDirection);
-        console.log(touchController.position);
-        
-        }
+    }
 }
 
 function frameLoop(){
