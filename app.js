@@ -321,7 +321,7 @@ function render(timestamp,frame){
             const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
             if(hitResults.length>0){
 
-                var hitObj = hitResults[0];
+                var hitObj = hitResults[0].getPose();
 
                 console.log(hitObj);
             }
