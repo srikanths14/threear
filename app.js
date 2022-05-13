@@ -310,7 +310,7 @@ function render(timestamp,frame){
 
             referenceSpace = activeSession.requestReferenceSpace('viewer');
 
-            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane"]
+            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane", "point"]
             }).then((newHitTestSource)=>{
                 transientInputHitSource = newHitTestSource;
             });
@@ -321,7 +321,7 @@ function render(timestamp,frame){
             const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
             if(hitResults.length>0){
 
-                var hitObj = hitResults[0].getPose(referenceSpace);
+                var hitObj = hitResults[0];
 
                 console.log(hitObj);
             }
