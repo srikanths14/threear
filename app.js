@@ -308,7 +308,10 @@ function render(timestamp,frame){
 
         if(transientInputHitSource==null && activeSession!=null){
 
-            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
+            referenceSpace = activeSession.requestReferenceSpace('viewer');
+
+            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane"],
+            offsetRay : XRRay()}).then((newHitTestSource)=>{
                 transientInputHitSource = newHitTestSource;
             });
         }
@@ -318,10 +321,9 @@ function render(timestamp,frame){
             const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
             if(hitResults.length>0){
 
-                const hitObj = hitResults[0];
+                var hitObj = hitResults[0].getPose(referenceSpace);
 
-                const hitPoseObj = hitObj.getPose(referenceSpace);
-                console.log(hitPoseObj);
+                console.log(hitObj);
             }
          }
         
