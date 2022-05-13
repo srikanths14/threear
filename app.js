@@ -316,8 +316,12 @@ function render(timestamp,frame){
         
             const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
             if(hitResults.length>0){
+
+                const hitObj = hitResults[0];
+                // visualPointer.visible =true;
+                // visualPointer.matrix.fromArray()
         
-                console.log(hitResults.length);
+                console.log(hitObj);
             }
          }
         
@@ -511,7 +515,6 @@ function onTouchStarted(){
 
         if (visualPointer.visible) {      
             sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
-            console.log(visualPointer.position);
         }
     }
 
