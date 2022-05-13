@@ -318,12 +318,14 @@ function render(timestamp,frame){
         
          if(transientInputHitSource!=null){
         
-            const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
-            if(hitResults.length>0){
+            const hitRlt = frame.getHitTestResultsForTransientInput(transientInputHitSource);
+            if(hitRlt.length>0){
 
-                var hitObj = hitResults[0].getPose();
+                const hit = hitRlt[ 0 ];
 
-                console.log(hitObj);
+                visualPointer.visible = true;
+                visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+                console.log(visualPointer.position);
             }
          }
         
