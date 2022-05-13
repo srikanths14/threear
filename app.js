@@ -298,6 +298,7 @@ function render(timestamp,frame){
     }
 
     rotateAsset();
+    updateSceneAssetTransform();
 
     if(frame){
 
