@@ -529,6 +529,9 @@ function onTouchStarted(){
     }
 
 }
+function onTouchEnded(){
+	
+}
 
 function frameLoop(){
     renderer.setAnimationLoop(render);
