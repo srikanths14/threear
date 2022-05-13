@@ -303,7 +303,7 @@ function render(timestamp,frame){
 
     if(frame){
 
-        const referenceSpace = renderer.xr.getReferenceSpace();
+        var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
 
         if(transientInputHitSource==null && activeSession!=null){
