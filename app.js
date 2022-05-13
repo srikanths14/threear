@@ -35,6 +35,8 @@ let group = null;
 
 let touchStarted = false;
 
+let transientInputHitSource = null; 
+
 initScene();
 frameLoop();
 
@@ -263,7 +265,6 @@ function loadGltf(){
     gltfLoader.load('EP3246_NT.glb',function(gltf){
 
       sceneAsset = gltf.scene;
-      sceneAsset.matrixAutoUpdate = false;
       scene.add(gltf.scene);
     });
 }
@@ -304,51 +305,64 @@ function render(timestamp,frame){
 
         const referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
+
+        if(transientInputHitSource==null && activeSession!=null){
+            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
+                transientInputHitSource = newHitTestSource;
+            });
+        }
         
-        if(hitTestSourceRequested===false){
-
-            activeSession.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
-
-                activeSession.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
-
-                    hitTestSource = source;
-                    removeQrCode();
-
-                } );
-
-            } );
-
-            activeSession.addEventListener( 'end', function () {
-
-                hitTestSourceRequested = false;
-                hitTestSource = null;
-
-            } );
-
-            hitTestSourceRequested = true;
-
-        }
-
-        if ( hitTestSource ) {
-
-            const hitTestResults = frame.getHitTestResults( hitTestSource );
-
-            if ( hitTestResults.length ) {
-
-                const hit = hitTestResults[ 0 ];
-
-                visualPointer.visible = true;
-                visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
-
-            } else {
-
-                visualPointer.visible = false;
-
+         if(transientInputHitSource!=null){
+        
+            const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
+            if(hitResults.length>0){
+        
+                console.log(hitResults.length);
             }
+         }
+        
+    //     if(hitTestSourceRequested===false){
 
-        }
+    //         activeSession.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
 
+    //             activeSession.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
 
+    //                 hitTestSource = source;
+    //                 removeQrCode();
+
+    //             } );
+
+    //         } );
+
+    //         activeSession.addEventListener( 'end', function () {
+
+    //             hitTestSourceRequested = false;
+    //             hitTestSource = null;
+
+    //         } );
+
+    //         hitTestSourceRequested = true;
+
+    //     }
+
+    //     if ( hitTestSource ) {
+
+    //         const hitTestResults = frame.getHitTestResults( hitTestSource );
+
+    //         if ( hitTestResults.length ) {
+
+    //             const hit = hitTestResults[ 0 ];
+
+    //             visualPointer.visible = true;
+    //             visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+
+    //         } else {
+
+    //             visualPointer.visible = false;
+
+    //         }
+
+    //     }
 
     }
 
@@ -362,8 +376,19 @@ function showAssetUI(){
 
     document.body.appendChild(uiContainer);
 
+    const placeButton = document.createElement('button');
+    placeButton.id = 'button-place';
+    placeButton.style.display ='';
+    placeButton.style.position = 'absolute';
+    placeButton.textContent = 'Place';
+    placeButton.style.right = '30px';
+    placeButton.style.top = '30px';
+    placeButton.addEventListener('click',onMoveAsset);
+
+    uiContainer.appendChild(placeButton);
+
     const rotateButton = document.createElement('button');
-    rotateButton.id = 'button-moveRight';
+    rotateButton.id = 'button-rotate';
     rotateButton.style.display ='';
     rotateButton.style.position = 'absolute';
     rotateButton.textContent = 'Rotate';
@@ -374,7 +399,7 @@ function showAssetUI(){
     uiContainer.appendChild(rotateButton);
 
     const scaleButton = document.createElement('button');
-    scaleButton.id ='button-moveForward';
+    scaleButton.id ='button-scale';
     scaleButton.style.display ='';
     scaleButton.textContent = 'Scale';
     scaleButton.style.position = 'absolute';
@@ -539,6 +564,24 @@ function updateSceneAssetTransform(){
         
     }
 
+}
+
+function enableTransientToucInputSource(){
+
+    if(transientInputHitSource==null && activeSession!=null){
+    activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
+        transientInputHitSource = newHitTestSource;
+    });
+}
+
+ if(transientInputHitSource!=null){
+
+    const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
+    if(hitResults.length>0){
+
+        console.log(hitResults.length);
+    }
+ }
 }
 
 
