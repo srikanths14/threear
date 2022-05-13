@@ -340,10 +340,10 @@ function render(timestamp,frame){
         
          if(transientInputHitSource!=null){
         
-            const hitRlt = frame.getHitTestResultsForTransientInput(transientInputHitSource);
+            const hitRlt = frame.getHitTestResultsForTransientInput(hitTestSource);
 
             if(hitRlt.length>0){
-                
+
                 const hitM = hitRlt[ 0 ];
 
                 var poseM = hitM.getPose(referenceSpace);
