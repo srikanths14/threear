@@ -488,13 +488,15 @@ function setupTouchController(){
     touchController.addEventListener('selectstart',onTouchStarted);
     touchController.addEventListener('selectend',onTouchEnded);
 
+    scene.add(touchController);
+
 }
 
 function onTouchStarted(){
 
     if(touchController!=null){
 
-    touchWorldPosition = touchController.position;
+    var touchWorldPosition = touchController.position;
     touchController.localToWorld(touchWorldPosition);
 
     var cameraWorldPosition = new THREE.Vector3().setFromMatrixPosition(camera.matrixWorld);
@@ -510,8 +512,14 @@ function onTouchStarted(){
     var collidedObjects = touchRaycaster.intersectObjects(scene.children);
 
     if(collidedObjects.length>0){
+
+        for(let m=0;m<collidedObjects.length;m++){
+            
+            console.log(collidedObjects[i].object.name);
+        }
         
         console.log(collidedObjects.length);
+
     }
 
     console.log(touchWorldPosition);
