@@ -45,7 +45,6 @@ function setupRenderEnvironment(){
 
     camera = setupCamera();
     scene = setupScene();
-    light
 
 }
 
@@ -264,6 +263,7 @@ function loadGltf(){
     gltfLoader.load('EP3246_NT.glb',function(gltf){
 
       sceneAsset = gltf.scene;
+      sceneAsset.matrixAutoUpdate = false;
       scene.add(gltf.scene);
     });
 }
@@ -523,8 +523,6 @@ function castRay(){
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
             console.log(selectedObject.name);          
-            console.log(selectedObject.getWorldPosition());
-            console.log(sceneAsset.getWorldPosition());
     
         }
 
@@ -536,7 +534,8 @@ function updateSceneAssetTransform(){
     if(selectedObject!=null && touchStarted==true){
 
         var touchWorldPositionA = new THREE.Vector3().setFromMatrixPosition(touchController.matrixWorld);
-        // selectedObject.position.set(touchWorldPositionA);
+        selectedObject.position.set(touchWorldPositionA);
+        selectedObject.updateMatrixWorld(true);
         
     }
 
