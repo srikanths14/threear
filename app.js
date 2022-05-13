@@ -523,6 +523,7 @@ function castRay(){
             selectedObject = intersections.object.parent;
             console.log(selectedObject.name);          
             console.log(selectedObject.position);
+            console.log(sceneAsset.position);
     
         }
 
