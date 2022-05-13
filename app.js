@@ -522,12 +522,10 @@ function castRay(){
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
             console.log(selectedObject.name);          
-            console.log(collidedObjects.length);
+            console.log(selectedObject.position);
     
         }
-    
-        console.log(touchWorldPosition);
-        console.log(touchDirection);
+
     }
 }
 
@@ -536,12 +534,7 @@ function updateSceneAssetTransform(){
     if(selectedObject!=null && touchStarted==true){
 
         var touchWorldPositionA = new THREE.Vector3().setFromMatrixPosition(touchController.matrixWorld);
-        var selectedObjectPose = new THREE.Vector3().setFromMatrixPosition(selectedObject.matrixWorld);
-
-        var diffValue = selectedObjectPose.clone().sub(touchWorldPositionA);
-
-        selectedObjectPose.x+=diffValue.x;
-        selectedObjectPose.z+=diffValue.z;
+        // selectedObject.position.set(touchWorldPositionA);
         
     }
 
