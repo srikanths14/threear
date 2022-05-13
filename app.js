@@ -34,7 +34,6 @@ let selectedObject =null;
 let group = null;
 
 let touchStarted = false;
-let locPoseY = null;
 
 initScene();
 frameLoop();
@@ -299,7 +298,6 @@ function render(timestamp,frame){
     }
 
     rotateAsset();
-    updateSceneAssetTransform();
 
     if(frame){
 
@@ -522,8 +520,6 @@ function castRay(){
 
             const intersections = collidedObjects[0];
             selectedObject = intersections.object.parent;
-            locPoseY = selectedObject.position.y;
-            touchController.attach(selectedObject);
             console.log(selectedObject.name);          
             console.log(collidedObjects.length);
     
@@ -538,10 +534,18 @@ function updateSceneAssetTransform(){
 
     if(selectedObject!=null && touchStarted==true){
 
-        selectedObject.rotation.set(0,0,0);
+        var touchWorldPositionA = new THREE.Vector3().setFromMatrixPosition(touchController.matrixWorld);
+        var selectedObjectPose = new THREE.Vector3().setFromMatrixPosition(selectedObject.matrixWorld);
+
+        var diffValue = selectedObjectPose.clone().sub(touchWorldPositionA);
+
+        selectedObjectPose.x+=diffValue.x;
+        selectedObjectPose.z+=diffValue.z;
+        
     }
 
 }
+
 
 
 function frameLoop(){
