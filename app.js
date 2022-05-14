@@ -305,7 +305,7 @@ function render(timestamp,frame){
         var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
 
-        enableTransientToucInputSource(frame);
+        enableTransientToucInputSource(frame,referenceSpace);
         
         // if(hitTestSourceRequested===false){
 
@@ -543,7 +543,7 @@ function castRay(){
     }
 }
 
-function enableTransientToucInputSource(frame){
+function enableTransientToucInputSource(frame,referenceSpace){
 
     if(transientInputHitSource==null && activeSession!=null){
     activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
@@ -558,8 +558,10 @@ function enableTransientToucInputSource(frame){
 
         var constTouchResults = hitResults[0].results;
 
+        var hitPosition = constTouchResults[0].getPose(referenceSpace);
+
         console.log(hitResults.length);
-        console.log(constTouchResults);
+        console.log(hitPosition);
     }
  }
 }
