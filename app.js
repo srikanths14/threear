@@ -305,7 +305,7 @@ function render(timestamp,frame){
         var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
 
-        enableTransientToucInputSource();
+        enableTransientToucInputSource(frame);
         
         // if(hitTestSourceRequested===false){
 
@@ -543,7 +543,7 @@ function castRay(){
     }
 }
 
-function enableTransientToucInputSource(){
+function enableTransientToucInputSource(frame){
 
     if(transientInputHitSource==null && activeSession!=null){
     activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
