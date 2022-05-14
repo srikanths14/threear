@@ -305,6 +305,8 @@ function render(timestamp,frame){
         var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
 
+        referenceSpace = activeSession.requestReferenceSpace('viewer');
+
         enableTransientToucInputSource(frame,referenceSpace);
         
         // if(hitTestSourceRequested===false){
@@ -559,7 +561,8 @@ function enableTransientToucInputSource(frame,referenceSpace){
         var constTouchResults = hitResults[0].results;
 
         var hitPosition = constTouchResults[0].getPose(referenceSpace);
-
+        visualPointer.visible = true;
+        visualPointer.matrix.fromArray( hitPosition.transform.matrix);
         console.log(hitResults.length);
         console.log(hitPosition);
     }
