@@ -305,8 +305,6 @@ function render(timestamp,frame){
         var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
 
-        referenceSpace = activeSession.requestReferenceSpace('viewer');
-
         enableTransientToucInputSource(frame,referenceSpace);
         
         // if(hitTestSourceRequested===false){
