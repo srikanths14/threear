@@ -299,57 +299,37 @@ function render(timestamp,frame){
     }
 
     rotateAsset();
-    updateSceneAssetTransform();
 
     if(frame){
 
         var referenceSpace = renderer.xr.getReferenceSpace();
         activeSession = renderer.xr.getSession();
+
+        enableTransientToucInputSource();
         
-        if(hitTestSourceRequested===false){
+        // if(hitTestSourceRequested===false){
 
-            activeSession.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
+        //     activeSession.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
 
-                activeSession.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
+        //         activeSession.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
 
-                    hitTestSource = source;
-                    removeQrCode();
+        //             hitTestSource = source;
+        //             removeQrCode();
 
-                } );
+        //         } );
 
-            } );
+        //     } );
 
-            activeSession.addEventListener( 'end', function () {
+        //     activeSession.addEventListener( 'end', function () {
 
-                hitTestSourceRequested = false;
-                hitTestSource = null;
+        //         hitTestSourceRequested = false;
+        //         hitTestSource = null;
 
-            } );
+        //     } );
 
-            hitTestSourceRequested = true;
+        //     hitTestSourceRequested = true;
 
-        }
-
-        if(transientInputHitSource==null && activeSession!=null){
-
-            activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen",entityTypes : ["plane", "point"]
-            }).then((newHitTestSource)=>{
-                transientInputHitSource = newHitTestSource;
-            });
-        }
-        
-         if(transientInputHitSource!=null){
-        
-            const hitRlt = frame.getHitTestResultsForTransientInput(hitTestSource);
-
-            if(hitRlt.length>0){
-
-                const hitM = hitRlt[ 0 ];
-
-                var poseM = hitM.getPose(referenceSpace);
-                console.log(poseM);
-            }
-         }
+        // }
 
         // if ( hitTestSource ) {
 
@@ -563,18 +543,6 @@ function castRay(){
     }
 }
 
-function updateSceneAssetTransform(){
-
-    if(selectedObject!=null && touchStarted==true){
-
-        var touchWorldPositionA = new THREE.Vector3().setFromMatrixPosition(touchController.matrixWorld);
-        selectedObject.position.set(touchWorldPositionA);
-        selectedObject.updateMatrixWorld(true);
-        
-    }
-
-}
-
 function enableTransientToucInputSource(){
 
     if(transientInputHitSource==null && activeSession!=null){
@@ -588,12 +556,13 @@ function enableTransientToucInputSource(){
     const hitResults = frame.getHitTestResultsForTransientInput(transientInputHitSource);
     if(hitResults.length>0){
 
+        var constTouchResults = hitResults[0].results;
+
         console.log(hitResults.length);
+        console.log(constTouchResults);
     }
  }
 }
-
-
 
 function frameLoop(){
     renderer.setAnimationLoop(render);
