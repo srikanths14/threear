@@ -20,6 +20,7 @@ let enableMovement= false;
 let enableScale = false;
 let enableRotate = false;
 
+
 let visualPointer;
 let moveVisualPointer;
 
@@ -306,53 +307,56 @@ function render(timestamp,frame){
         activeSession = renderer.xr.getSession();
 
         enableTransientToucInputSource(frame,referenceSpace);
+
+        if(enableMovement==false && enableRotate==false && enableScale==false && enableRotateAnimation == false){
         
-        // if(hitTestSourceRequested===false){
+        if(hitTestSourceRequested===false){
 
-        //     activeSession.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
+            activeSession.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
 
-        //         activeSession.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
+                activeSession.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
 
-        //             hitTestSource = source;
-        //             removeQrCode();
+                    hitTestSource = source;
+                    removeQrCode();
 
-        //         } );
+                } );
 
-        //     } );
+            } );
 
-        //     activeSession.addEventListener( 'end', function () {
+            activeSession.addEventListener( 'end', function () {
 
-        //         hitTestSourceRequested = false;
-        //         hitTestSource = null;
+                hitTestSourceRequested = false;
+                hitTestSource = null;
 
-        //     } );
+            } );
 
-        //     hitTestSourceRequested = true;
+            hitTestSourceRequested = true;
 
-        // }
+        }
 
-        // if ( hitTestSource ) {
+        if ( hitTestSource ) {
 
-        //     const hitTestResults = frame.getHitTestResults( hitTestSource );
+            const hitTestResults = frame.getHitTestResults( hitTestSource );
 
-        //     if ( hitTestResults.length ) {
+            if ( hitTestResults.length ) {
 
-        //         const hit = hitTestResults[ 0 ];
+                const hit = hitTestResults[ 0 ];
 
-        //         var poseRequest = hit.getPose(referenceSpace);
-        //         console.log(poseRequest);
-        //         console.log(hit);
-        //         visualPointer.visible = true;
-        //         visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+                var poseRequest = hit.getPose(referenceSpace);
+                console.log(poseRequest);
+                console.log(hit);
+                visualPointer.visible = true;
+                visualPointer.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
 
 
-        //     } else {
+            } else {
 
-        //         visualPointer.visible = false;
+                visualPointer.visible = false;
 
-        //     }
+            }
 
-        // }
+        }
+        }
 
     }
 
@@ -370,7 +374,7 @@ function showAssetUI(){
     placeButton.id = 'button-place';
     placeButton.style.display ='';
     placeButton.style.position = 'absolute';
-    placeButton.textContent = 'Place';
+    placeButton.textContent = 'Move';
     placeButton.style.right = '30px';
     placeButton.style.top = '30px';
     placeButton.addEventListener('click',onMoveAsset);
@@ -409,6 +413,18 @@ function showAssetUI(){
     playAnimationButton.addEventListener('click',playRotationAnimation);
 
     uiContainer.appendChild(playAnimationButton);
+
+    const actionCompleted = document.createElement('button');
+    actionCompleted.id = 'button-done';
+    actionCompleted.style.display ='';
+    actionCompleted.textContent = 'Done';
+    actionCompleted.style.position = 'absolute';
+    actionCompleted.style.right = '30px';
+    actionCompleted.style.top = '200px';
+    actionCompleted.addEventListener('click',resetManipulation);
+
+    uiContainer.appendChild(actionCompleted);
+
     
 }
 
@@ -447,6 +463,15 @@ function onScaleAsset(){
         enableRotateAnimation = false;
     }
 
+}
+
+function resetManipulation(){
+    if(sceneAsset!=null){
+        enableScale =false;
+        enableMovement = false;
+        enableRotate = false;
+        enableRotateAnimation = false;
+    }
 }
 
 function playRotationAnimation(){
@@ -499,13 +524,12 @@ function onTouchStarted(){
 
     if(visualPointer!=null){
 
+        if(enableMovement==false && enableRotate==false && enableScale==false && enableRotateAnimation == false){
         if (visualPointer.visible) {      
             sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
         }
     }
-
-    castRay();
-    // castRay();
+}
 }
 
 function onTouchEnded(){
@@ -545,11 +569,13 @@ function castRay(){
 
 function enableTransientToucInputSource(frame,referenceSpace){
 
+    if(enableMovement ==true){
+
     if(transientInputHitSource==null && activeSession!=null){
     activeSession.requestHitTestSourceForTransientInput({profile:"generic-touchscreen"}).then((newHitTestSource)=>{
         transientInputHitSource = newHitTestSource;
     });
-}
+    }
 
  if(transientInputHitSource!=null){
 
@@ -561,10 +587,12 @@ function enableTransientToucInputSource(frame,referenceSpace){
         var hitPosition = constTouchResults[0].getPose(referenceSpace);
         visualPointer.visible = true;
         visualPointer.matrix.fromArray( hitPosition.transform.matrix);
+        sceneAsset.position.setFromMatrixPosition(visualPointer.matrix);
         console.log(hitResults.length);
         console.log(hitPosition);
     }
  }
+}
 }
 
 function frameLoop(){
