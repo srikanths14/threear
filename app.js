@@ -375,7 +375,7 @@ function showAssetUI(){
     placeButton.style.display = '';
     placeButton.style.position = 'absolute';
     placeButton.textContent = 'Move';
-    placeButton.style.right = '30px';
+    placeButton.style.right = '10px';
     placeButton.style.top = '30px';
     placeButton.style.width = '70px';
     placeButton.style.height = '50px';
@@ -389,7 +389,7 @@ function showAssetUI(){
     rotateButton.style.display ='';
     rotateButton.style.position = 'absolute';
     rotateButton.textContent = 'Rotate';
-    rotateButton.style.right = '30px';
+    rotateButton.style.right = '10px';
     rotateButton.style.top = '85px';
     rotateButton.style.width = '70px';
     rotateButton.style.height = '50px';
@@ -403,7 +403,7 @@ function showAssetUI(){
     scaleButton.style.display ='';
     scaleButton.textContent = 'Scale';
     scaleButton.style.position = 'absolute';
-    scaleButton.style.right = '30px';
+    scaleButton.style.right = '10px';
     scaleButton.style.top = '140px';
     scaleButton.style.width = '70px';
     scaleButton.style.height = '50px';
@@ -417,7 +417,7 @@ function showAssetUI(){
     playAnimationButton.style.display ='';
     playAnimationButton.textContent = 'Play Animation';
     playAnimationButton.style.position = 'absolute';
-    playAnimationButton.style.right = '30px';
+    playAnimationButton.style.right = '10px';
     playAnimationButton.style.top = '195px';
     playAnimationButton.style.width = '70px';
     playAnimationButton.style.height = '50px';
@@ -431,7 +431,7 @@ function showAssetUI(){
     actionCompleted.style.display ='';
     actionCompleted.textContent = 'Reset';
     actionCompleted.style.position = 'absolute';
-    actionCompleted.style.right = '30px';
+    actionCompleted.style.right = '10px';
     actionCompleted.style.top = '250px';
     actionCompleted.style.width = '70px';
     actionCompleted.style.height = '50px';
