@@ -372,11 +372,14 @@ function showAssetUI(){
 
     const placeButton = document.createElement('button');
     placeButton.id = 'button-place';
-    placeButton.style.display ='';
+    placeButton.style.display = '';
     placeButton.style.position = 'absolute';
     placeButton.textContent = 'Move';
     placeButton.style.right = '30px';
     placeButton.style.top = '30px';
+    placeButton.style.width = '70px';
+    placeButton.style.height = '50px';
+    placeButton.style.fontSize = '10px';
     placeButton.addEventListener('click',onMoveAsset);
 
     uiContainer.appendChild(placeButton);
@@ -387,7 +390,10 @@ function showAssetUI(){
     rotateButton.style.position = 'absolute';
     rotateButton.textContent = 'Rotate';
     rotateButton.style.right = '30px';
-    rotateButton.style.top = '70px';
+    rotateButton.style.top = '85px';
+    rotateButton.style.width = '70px';
+    rotateButton.style.height = '50px';
+    rotateButton.style.fontSize = '10px';
     rotateButton.addEventListener('click',onRotateAsset);
 
     uiContainer.appendChild(rotateButton);
@@ -398,7 +404,10 @@ function showAssetUI(){
     scaleButton.textContent = 'Scale';
     scaleButton.style.position = 'absolute';
     scaleButton.style.right = '30px';
-    scaleButton.style.top = '110px';
+    scaleButton.style.top = '140px';
+    scaleButton.style.width = '70px';
+    scaleButton.style.height = '50px';
+    scaleButton.style.fontSize = '10px';
     scaleButton.addEventListener('click',onScaleAsset);
    
     uiContainer.appendChild(scaleButton);
@@ -409,7 +418,10 @@ function showAssetUI(){
     playAnimationButton.textContent = 'Play Animation';
     playAnimationButton.style.position = 'absolute';
     playAnimationButton.style.right = '30px';
-    playAnimationButton.style.top = '150px';
+    playAnimationButton.style.top = '195px';
+    playAnimationButton.style.width = '70px';
+    playAnimationButton.style.height = '50px';
+    playAnimationButton.style.fontSize = '10px';
     playAnimationButton.addEventListener('click',playRotationAnimation);
 
     uiContainer.appendChild(playAnimationButton);
@@ -417,10 +429,13 @@ function showAssetUI(){
     const actionCompleted = document.createElement('button');
     actionCompleted.id = 'button-done';
     actionCompleted.style.display ='';
-    actionCompleted.textContent = 'Done';
+    actionCompleted.textContent = 'Reset';
     actionCompleted.style.position = 'absolute';
     actionCompleted.style.right = '30px';
-    actionCompleted.style.top = '200px';
+    actionCompleted.style.top = '250px';
+    actionCompleted.style.width = '70px';
+    actionCompleted.style.height = '50px';
+    actionCompleted.style.fontSize = '10px';
     actionCompleted.addEventListener('click',resetManipulation);
 
     uiContainer.appendChild(actionCompleted);
